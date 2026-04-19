@@ -1,43 +1,22 @@
 import numpy as np
 from scipy.stats import skew, kurtosis, entropy
 
-
-# =========================
-# 🔥 FIXED ENTROPY FUNCTION
-# =========================
 def compute_entropy(img):
-    # Proper float histogram (NO uint8 conversion)
     hist, _ = np.histogram(img.flatten(), bins=64, range=(0, 1), density=True)
-    hist = hist + 1e-6  # avoid log(0)
+    hist = hist + 1e-6
     return entropy(hist)
 
-
-# =========================
-# 📡 REFLECTION DENSITY
-# =========================
 def reflection_density(img, threshold=0.5):
     return np.sum(img > threshold) / img.size
 
-
-# =========================
-# 🌪️ CLUTTER INDEX
-# =========================
 def clutter_index(img):
     return np.std(img)
 
-
-# =========================
-# ⏱️ TEMPORAL VARIANCE
-# =========================
 def temporal_variance(prev_img, curr_img):
     if prev_img is None:
         return 0
     return np.var(curr_img - prev_img)
 
-
-# =========================
-# 🧠 FEATURE EXTRACTION
-# =========================
 def extract_features(images):
     features = []
     prev = None

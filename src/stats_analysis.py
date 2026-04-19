@@ -1,4 +1,3 @@
-import pandas as pd
 from scipy.stats import ttest_ind, ks_2samp
 
 def run_statistical_tests(df):
