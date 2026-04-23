@@ -6,8 +6,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 
+import matplotlib.pyplot as plt
+
 def run_ml_models(df):
-    # ❌ removed entropy & density (no leakage)
+
     X = df[[
         "mean_intensity", 
         "std_intensity", 
@@ -45,5 +47,23 @@ def run_ml_models(df):
         print(classification_report(y_test, y_pred))
 
         trained_models[name] = model
+
+    # Feature importance
+    rf = trained_models["Random Forest"]
+    importances = rf.feature_importances_
+
+    features = [
+        "mean_intensity", 
+        "std_intensity", 
+        "skewness",
+        "kurtosis", 
+        "clutter_index",
+        "temporal_variance"
+    ]
+
+    plt.figure()
+    plt.barh(features, importances)
+    plt.title("Feature Importance")
+    plt.show()
 
     return trained_models, scaler
